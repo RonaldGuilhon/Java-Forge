@@ -20,6 +20,8 @@ public class AIChatPanel extends BorderPane {
     private AIService aiService;
     private final StringBuilder chatHistory = new StringBuilder();
     private boolean darkMode = true;
+    private String ollamaUrl = "http://localhost:11434/api/generate";
+    private String ollamaModel = "codellama";
 
     public AIChatPanel() {
         buildUI();
@@ -97,7 +99,7 @@ public class AIChatPanel extends BorderPane {
     }
 
     private void setupDefaultService() {
-        aiService = new OllamaService(null, "codellama");
+        aiService = new OllamaService(ollamaUrl, ollamaModel);
     }
 
     private void setupService() {
@@ -112,30 +114,54 @@ public class AIChatPanel extends BorderPane {
                 aiService = new OpenAIService(key, model);
             }
         } else {
-            aiService = new OllamaService(null, "codellama");
+            aiService = new OllamaService(ollamaUrl, ollamaModel);
         }
     }
 
     private void showConfigDialog() {
-        Dialog<String> dialog = new Dialog<String>();
+        Dialog<Void> dialog = new Dialog<Void>();
         dialog.setTitle("AI Configuration");
-        dialog.setHeaderText("Set API Key");
+        dialog.setHeaderText("Configure AI Providers");
 
         TextField keyField = new TextField(System.getenv("OPENAI_API_KEY"));
+        TextField ollamaUrlField = new TextField(ollamaUrl);
+        TextField ollamaModelField = new TextField(ollamaModel);
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(8);
         grid.setPadding(new Insets(20));
-        grid.addRow(0, new Label("OpenAI API Key:"), keyField);
+
+        TitledPane openaiSection = new TitledPane("OpenAI", new VBox(8,
+            new Label("API Key:"), keyField
+        ));
+        openaiSection.setExpanded(true);
+
+        TitledPane ollamaSection = new TitledPane("Ollama (Local)", new VBox(8,
+            new Label("URL:"), ollamaUrlField,
+            new Label("Model:"), ollamaModelField
+        ));
+        ollamaSection.setExpanded(true);
+
+        VBox content = new VBox(12, openaiSection, ollamaSection);
+        grid.addRow(0, content);
+        GridPane.setColumnSpan(content, 2);
+
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
-        dialog.setResultConverter(btn -> btn == ButtonType.OK ? keyField.getText() : null);
-        dialog.showAndWait().ifPresent(key -> {
-            if (!key.trim().isEmpty()) {
-                System.setProperty("OPENAI_API_KEY", key);
+        dialog.setResultConverter(btn -> {
+            if (btn == ButtonType.OK) {
+                String key = keyField.getText();
+                if (!key.trim().isEmpty()) {
+                    System.setProperty("OPENAI_API_KEY", key);
+                }
+                ollamaUrl = ollamaUrlField.getText().trim();
+                ollamaModel = ollamaModelField.getText().trim();
                 setupService();
             }
+            return null;
         });
+        dialog.showAndWait();
     }
 
     private void sendMessage() {
