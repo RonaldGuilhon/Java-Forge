@@ -4,6 +4,7 @@ import com.javaforge.core.JavaForge;
 import com.javaforge.core.settings.SettingsManager;
 import com.javaforge.ui.layout.MainWindow;
 import com.javaforge.ui.theme.ThemeManager;
+import com.javaforge.workspace.WorkspaceManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ public class JavaForgeUI extends Application {
     @Override
     public void start(Stage stage) {
         JavaForge.bootstrap();
+
+        WorkspaceManager.getInstance().initialize();
 
         SettingsManager forgeSettings = JavaForge.settings();
         ThemeManager themeManager = new ThemeManager(forgeSettings);

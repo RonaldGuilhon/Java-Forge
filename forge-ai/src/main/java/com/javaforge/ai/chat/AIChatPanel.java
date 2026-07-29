@@ -3,6 +3,7 @@ package com.javaforge.ai.chat;
 import com.javaforge.ai.service.AIService;
 import com.javaforge.ai.service.OpenAIService;
 import com.javaforge.ai.service.OllamaService;
+import com.javaforge.workspace.WorkspaceManager;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -171,8 +172,15 @@ public class AIChatPanel extends BorderPane {
 
         appendMessage("You", text, "#569cd6");
 
-        aiService.ask(text).thenAccept(response -> {
-            Platform.runLater(() -> appendMessage("AI", response, "#ce9178"));
+        WorkspaceManager.getInstance().getProjectContext(context -> {
+            String augmented = text;
+            if (context != null && !context.isEmpty()) {
+                augmented = "Project context:\n" + context + "\n\nUser question:\n" + text;
+            }
+            final String finalText = augmented;
+            aiService.ask(finalText).thenAccept(response -> {
+                Platform.runLater(() -> appendMessage("AI", response, "#ce9178"));
+            });
         });
     }
 

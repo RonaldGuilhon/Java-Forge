@@ -23,7 +23,11 @@ public class MenuBarBuilder extends MenuBar {
 
     private void buildMenus() {
         MenuItem newProjectItem = new MenuItem("New Project...");
-        newProjectItem.setOnAction(e -> ProjectWizard.showAndGenerate());
+        newProjectItem.setOnAction(e -> ProjectWizard.showAndGenerate(path -> {
+            if (mainWindow != null) {
+                mainWindow.getExplorer().loadProject(path);
+            }
+        }));
 
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnAction(e -> javafx.application.Platform.exit());

@@ -1,8 +1,9 @@
 package com.javaforge.ui.layout;
 
+import com.javaforge.workspace.WorkspaceManager;
+import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 import java.io.File;
 
@@ -29,6 +30,10 @@ public class ExplorerPanel extends BorderPane {
         rootItem.setExpanded(true);
         populateTree(projectPath.toFile(), rootItem);
         fileTree.setRoot(rootItem);
+
+        Platform.runLater(() ->
+            WorkspaceManager.getInstance().openWorkspace(projectPath)
+        );
     }
 
     private void populateTree(File dir, TreeItem<String> parent) {

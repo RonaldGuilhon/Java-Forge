@@ -10,6 +10,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 
 public class ProjectWizard extends Dialog<ProjectConfig> {
 
@@ -133,17 +135,24 @@ public class ProjectWizard extends Dialog<ProjectConfig> {
     }
 
     public static void showAndGenerate() {
+        showAndGenerate(null);
+    }
+
+    public static void showAndGenerate(Consumer<Path> onGenerated) {
         ProjectWizard wizard = new ProjectWizard();
         ProjectConfig config = wizard.showAndWait().orElse(null);
         if (config != null) {
             try {
                 ProjectGeneratorService service = new ProjectGeneratorService();
-                java.nio.file.Path path = service.generate(config);
+                Path path = service.generate(config);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Project Generated");
                 alert.setHeaderText(null);
                 alert.setContentText("Project generated successfully at:\n" + path);
                 alert.showAndWait();
+                if (onGenerated != null) {
+                    onGenerated.accept(path);
+                }
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
