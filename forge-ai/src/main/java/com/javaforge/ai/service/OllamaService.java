@@ -48,6 +48,8 @@ public class OllamaService implements AIService {
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
+                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(60000);
 
                 String jsonInput = gson.toJson(body);
                 try (OutputStream os = conn.getOutputStream()) {
@@ -70,10 +72,23 @@ public class OllamaService implements AIService {
                 br.close();
                 conn.disconnect();
 
-                Map<String, Object> json = gson.fromJson(sb.toString(), Map.class);
-                Object result = json.get("response");
-                return result != null ? result.toString() : "No response from Ollama";
+                String raw = sb.toString();
+                Map<String, Object> json = gson.fromJson(raw, Map.class);
 
+                Object error = json.get("error");
+                if (error != null) {
+                    return "Ollama error: " + error.toString();
+                }
+
+                Object result = json.get("response");
+                if (result != null) {
+                    return result.toString();
+                }
+
+                return "No response from Ollama. Verify the model is downloaded and Ollama is running.\nRaw response: " + raw;
+
+            } catch (java.net.ConnectException e) {
+                return "Error: Cannot connect to Ollama at " + baseUrl + ".\nMake sure Ollama is installed and running (https://ollama.com).";
             } catch (Exception e) {
                 log.error("Ollama API error", e);
                 return "Error: " + e.getMessage();
