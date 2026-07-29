@@ -1,0 +1,160 @@
+/* Java Forge IDE - Light Theme */
+
+.root {
+    -fx-base: #ffffff;
+    -fx-background: #f3f3f3;
+    -fx-color: #333333;
+    -fx-text-fill: #333333;
+    -fx-control-inner-background: #ffffff;
+    -fx-accent: #0066b8;
+    -fx-focus-color: #0066b8;
+    -fx-faint-focus-color: transparent;
+}
+
+.menu-bar {
+    -fx-background-color: #f3f3f3;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+.menu-bar .label {
+    -fx-text-fill: #333333;
+}
+.menu:hover {
+    -fx-background-color: #e0e0e0;
+}
+.menu-item {
+    -fx-background-color: #ffffff;
+}
+.menu-item .label {
+    -fx-text-fill: #333333;
+}
+.menu-item:hover {
+    -fx-background-color: #0066b8;
+}
+.menu-item:hover .label {
+    -fx-text-fill: white;
+}
+
+.status-bar {
+    -fx-background-color: #0066b8;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+    -fx-font-size: 12px;
+}
+.status-bar .label {
+    -fx-text-fill: white;
+}
+.status-separator {
+    -fx-text-fill: rgba(255,255,255,0.4);
+}
+
+.explorer-panel {
+    -fx-background-color: #f3f3f3;
+    -fx-border-color: #e0e0e0;
+}
+.panel-header {
+    -fx-background-color: #e8e8e8;
+    -fx-text-fill: #333333;
+    -fx-padding: 4 8 4 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.tree-view {
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: #333333;
+}
+.tree-cell {
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: #333333;
+    -fx-padding: 2 4 2 20;
+}
+.tree-cell:selected {
+    -fx-background-color: #0066b8;
+    -fx-text-fill: white;
+}
+.tree-cell:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.editor-panel {
+    -fx-background-color: #ffffff;
+}
+.tab-pane {
+    -fx-background-color: #f3f3f3;
+}
+.tab-header-area {
+    -fx-background-color: #f3f3f3;
+}
+.tab {
+    -fx-background-color: #e8e8e8;
+    -fx-text-fill: #666666;
+    -fx-border-color: #e0e0e0;
+}
+.tab:selected {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-border-color: #ffffff;
+}
+.tab .label {
+    -fx-text-fill: #666666;
+}
+.tab:selected .label {
+    -fx-text-fill: #333333;
+}
+
+.bottom-panel {
+    -fx-background-color: #f3f3f3;
+}
+
+.terminal-panel {
+    -fx-background-color: #ffffff;
+}
+
+.console-panel {
+    -fx-background-color: #ffffff;
+}
+
+.split-pane {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #e0e0e0;
+}
+.split-pane-divider {
+    -fx-background-color: #d0d0d0;
+    -fx-padding: 1;
+}
+
+.scroll-bar {
+    -fx-background-color: #f3f3f3;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #c0c0c0;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: #a0a0a0;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #f3f3f3;
+}
+
+.text-area {
+    -fx-text-fill: #333333;
+    -fx-background-color: #ffffff;
+}
+.text-area .content {
+    -fx-background-color: #ffffff;
+}
+
+.dialog-pane {
+    -fx-background-color: #f3f3f3;
+    -fx-text-fill: #333333;
+}
+
+.tooltip {
+    -fx-background-color: #e8e8e8;
+    -fx-text-fill: #333333;
+    -fx-border-color: #d0d0d0;
+}

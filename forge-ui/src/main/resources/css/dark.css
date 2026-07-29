@@ -1,0 +1,170 @@
+/* Java Forge IDE - Dark Theme */
+
+/* Root */
+.root {
+    -fx-base: #1e1e1e;
+    -fx-background: #252526;
+    -fx-color: #d4d4d4;
+    -fx-text-fill: #d4d4d4;
+    -fx-control-inner-background: #1e1e1e;
+    -fx-accent: #264f78;
+    -fx-focus-color: #264f78;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Menu */
+.menu-bar {
+    -fx-background-color: #3c3c3c;
+    -fx-border-color: #252526;
+    -fx-border-width: 0 0 1 0;
+}
+.menu-bar .label {
+    -fx-text-fill: #cccccc;
+}
+.menu:hover {
+    -fx-background-color: #505050;
+}
+.menu-item {
+    -fx-background-color: #3c3c3c;
+}
+.menu-item .label {
+    -fx-text-fill: #cccccc;
+}
+.menu-item:hover {
+    -fx-background-color: #094771;
+}
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: #007acc;
+    -fx-text-fill: white;
+    -fx-padding: 0;
+    -fx-font-size: 12px;
+}
+.status-bar .label {
+    -fx-text-fill: white;
+}
+.status-separator {
+    -fx-text-fill: rgba(255,255,255,0.4);
+}
+
+/* Panels */
+.explorer-panel {
+    -fx-background-color: #252526;
+    -fx-border-color: #1e1e1e;
+}
+.panel-header {
+    -fx-background-color: #3c3c3c;
+    -fx-text-fill: #cccccc;
+    -fx-padding: 4 8 4 8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-border-color: #252526;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Explorer Tree */
+.tree-view {
+    -fx-background-color: #252526;
+    -fx-text-fill: #cccccc;
+}
+.tree-cell {
+    -fx-background-color: #252526;
+    -fx-text-fill: #cccccc;
+    -fx-padding: 2 4 2 20;
+}
+.tree-cell:selected {
+    -fx-background-color: #094771;
+}
+.tree-cell:hover {
+    -fx-background-color: #2a2d2e;
+}
+
+/* Editor */
+.editor-panel {
+    -fx-background-color: #1e1e1e;
+}
+.tab-pane {
+    -fx-background-color: #252526;
+}
+.tab-header-area {
+    -fx-background-color: #252526;
+}
+.tab {
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: #969696;
+    -fx-border-color: #252526;
+}
+.tab:selected {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #1e1e1e;
+}
+.tab .label {
+    -fx-text-fill: #969696;
+}
+.tab:selected .label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Bottom Panel */
+.bottom-panel {
+    -fx-background-color: #252526;
+}
+
+/* Terminal */
+.terminal-panel {
+    -fx-background-color: #1e1e1e;
+}
+
+/* Console */
+.console-panel {
+    -fx-background-color: #1e1e1e;
+}
+
+/* SplitPane */
+.split-pane {
+    -fx-background-color: #252526;
+    -fx-border-color: #252526;
+}
+.split-pane-divider {
+    -fx-background-color: #3c3c3c;
+    -fx-padding: 1;
+}
+
+/* Scroll Bar */
+.scroll-bar {
+    -fx-background-color: #1e1e1e;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #424242;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: #4f4f4f;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #1e1e1e;
+}
+
+/* Text Input */
+.text-area {
+    -fx-text-fill: #d4d4d4;
+    -fx-background-color: #1e1e1e;
+}
+.text-area .content {
+    -fx-background-color: #1e1e1e;
+}
+
+/* Dialog */
+.dialog-pane {
+    -fx-background-color: #252526;
+    -fx-text-fill: #d4d4d4;
+}
+
+/* Tooltip */
+.tooltip {
+    -fx-background-color: #3c3c3c;
+    -fx-text-fill: #d4d4d4;
+    -fx-border-color: #505050;
+}

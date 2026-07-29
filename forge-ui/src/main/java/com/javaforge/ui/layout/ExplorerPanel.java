@@ -1,0 +1,48 @@
+package com.javaforge.ui.layout;
+
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+
+public class ExplorerPanel extends BorderPane {
+
+    private final TreeView<String> fileTree = new TreeView<>();
+    private final Label header = new Label("EXPLORER");
+
+    public ExplorerPanel() {
+        getStyleClass().add("explorer-panel");
+
+        header.getStyleClass().add("panel-header");
+        var root = new TreeItem<>("No workspace opened");
+        root.setExpanded(true);
+        fileTree.setRoot(root);
+        fileTree.setShowRoot(true);
+
+        setTop(header);
+        setCenter(fileTree);
+    }
+
+    public void loadProject(java.nio.file.Path projectPath) {
+        var rootItem = new TreeItem<>(projectPath.getFileName().toString());
+        rootItem.setExpanded(true);
+        populateTree(projectPath.toFile(), rootItem);
+        fileTree.setRoot(rootItem);
+    }
+
+    private void populateTree(java.io.File dir, TreeItem<String> parent) {
+        var files = dir.listFiles();
+        if (files == null) return;
+        for (var file : files) {
+            var item = new TreeItem<>(file.getName());
+            if (file.isDirectory()) {
+                item.setExpanded(false);
+                populateTree(file, item);
+            }
+            parent.getChildren().add(item);
+        }
+    }
+
+    public TreeView<String> getFileTree() {
+        return fileTree;
+    }
+}
