@@ -33,15 +33,16 @@ public class OllamaService implements AIService {
     }
 
     @Override
-    public CompletableFuture<String> askWithContext(String context, String prompt) {
+    public CompletableFuture<String> askWithContext(String systemContext, String prompt) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                String fullPrompt = context.trim().isEmpty() ? prompt : context + "\n\n" + prompt;
-
                 Map<String, Object> body = new HashMap<String, Object>();
                 body.put("model", model);
-                body.put("prompt", fullPrompt);
+                body.put("prompt", prompt);
                 body.put("stream", false);
+                if (systemContext != null && !systemContext.trim().isEmpty()) {
+                    body.put("system", systemContext);
+                }
 
                 URL url = new URL(baseUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

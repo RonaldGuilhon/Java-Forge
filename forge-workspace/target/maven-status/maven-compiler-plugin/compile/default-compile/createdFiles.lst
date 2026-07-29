@@ -1,0 +1,14 @@
+com\javaforge\workspace\indexer\WorkspaceIndexer$1.class
+com\javaforge\workspace\indexer\WorkspaceIndexer.class
+com\javaforge\workspace\parser\JavaParserService.class
+com\javaforge\workspace\model\IndexedClass.class
+com\javaforge\workspace\model\IndexedField.class
+com\javaforge\workspace\WorkspaceManager.class
+com\javaforge\workspace\model\IndexQuery.class
+com\javaforge\workspace\db\WorkspaceDatabase.class
+com\javaforge\workspace\indexer\WorkspaceIndexer$ProjectContextCallback.class
+com\javaforge\workspace\indexer\WorkspaceIndexer$IndexSearchCallback.class
+com\javaforge\workspace\model\IndexedMethod.class
+com\javaforge\workspace\watch\FileWatcher.class
+com\javaforge\workspace\model\IndexedFile.class
+com\javaforge\workspace\model\IndexedAnnotation.class

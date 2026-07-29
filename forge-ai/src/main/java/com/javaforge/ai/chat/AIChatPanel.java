@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
+import java.util.function.Supplier;
+
 public class AIChatPanel extends BorderPane {
 
     private final WebView chatView = new WebView();
@@ -23,10 +25,15 @@ public class AIChatPanel extends BorderPane {
     private boolean darkMode = true;
     private String ollamaUrl = "http://localhost:11434/api/generate";
     private String ollamaModel = "codellama";
+    private Supplier<String> openFileContext = () -> "";
 
     public AIChatPanel() {
         buildUI();
         setupDefaultService();
+    }
+
+    public void setOpenFileContext(Supplier<String> supplier) {
+        this.openFileContext = supplier;
     }
 
     private void buildUI() {
@@ -173,12 +180,30 @@ public class AIChatPanel extends BorderPane {
         appendMessage("You", text, "#569cd6");
 
         WorkspaceManager.getInstance().getProjectContext(context -> {
-            String augmented = text;
-            if (context != null && !context.isEmpty()) {
-                augmented = "Project context:\n" + context + "\n\nUser question:\n" + text;
+            String projectName = "unknown";
+            if (WorkspaceManager.getInstance().isWorkspaceOpen()) {
+                projectName = WorkspaceManager.getInstance().getCurrentWorkspacePath().getFileName().toString();
             }
-            final String finalText = augmented;
-            aiService.ask(finalText).thenAccept(response -> {
+
+            String openFile = openFileContext.get();
+
+            StringBuilder systemContext = new StringBuilder();
+            systemContext.append("You are Java Forge AI, an expert coding assistant embedded in the Java Forge IDE. ");
+            systemContext.append("You are currently helping with the project: \"").append(projectName).append("\". ");
+            systemContext.append("Answer in the SAME LANGUAGE as the user's question. ");
+            systemContext.append("Be concise, accurate, and refer to the actual project files and code.\n\n");
+
+            if (context != null && !context.isEmpty()) {
+                systemContext.append("Project structure:\n").append(context).append("\n");
+            } else {
+                systemContext.append("(Project indexing is still in progress or no project is open.)\n");
+            }
+
+            if (openFile != null && !openFile.isEmpty()) {
+                systemContext.append("\nCurrently open file:\n").append(openFile);
+            }
+
+            aiService.askWithContext(systemContext.toString(), text).thenAccept(response -> {
                 Platform.runLater(() -> appendMessage("AI", response, "#ce9178"));
             });
         });

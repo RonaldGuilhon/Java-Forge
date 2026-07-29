@@ -1,12 +1,13 @@
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\BottomPanel.java
-C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\StatusBar.java
-C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\editor\MonacoEditorView.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\MenuBarBuilder.java
-C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\EditorPanel.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\ExplorerPanel.java
-C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\TerminalPanel.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\JavaForgeUI.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\theme\Theme.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\theme\ThemeManager.java
+C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\StatusBar.java
+C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\editor\MonacoEditorView.java
+C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\editor\MonacoOfflineManager.java
+C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\EditorPanel.java
+C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\TerminalPanel.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\ConsolePanel.java
 C:\Users\rsimplicio\Documents\GitHub\Java-Forge\forge-ui\src\main\java\com\javaforge\ui\layout\MainWindow.java

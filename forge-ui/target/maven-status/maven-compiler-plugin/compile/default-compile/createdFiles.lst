@@ -1,11 +1,14 @@
 com\javaforge\ui\layout\BottomPanel.class
 com\javaforge\ui\theme\Theme.class
+com\javaforge\ui\editor\MonacoOfflineManager.class
 com\javaforge\ui\layout\ConsolePanel.class
 com\javaforge\ui\layout\MainWindow.class
 com\javaforge\ui\JavaForgeUI.class
 com\javaforge\ui\layout\StatusBar.class
+com\javaforge\ui\layout\MainWindow$1.class
 com\javaforge\ui\editor\MonacoEditorView.class
 com\javaforge\ui\layout\EditorPanel.class
+com\javaforge\ui\layout\ExplorerPanel$1.class
 com\javaforge\ui\layout\MenuBarBuilder.class
 com\javaforge\ui\layout\TerminalPanel.class
 com\javaforge\ui\theme\ThemeManager.class

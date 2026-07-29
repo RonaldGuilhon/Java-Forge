@@ -25,9 +25,22 @@ public class MenuBarBuilder extends MenuBar {
         MenuItem newProjectItem = new MenuItem("New Project...");
         newProjectItem.setOnAction(e -> ProjectWizard.showAndGenerate(path -> {
             if (mainWindow != null) {
-                mainWindow.getExplorer().loadProject(path);
+                mainWindow.loadProject(path);
             }
         }));
+
+        MenuItem openFileItem = new MenuItem("Open File...");
+        openFileItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleOpenFile(); });
+
+        MenuItem saveItem = new MenuItem("Save");
+        saveItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleSave(); });
+        saveItem.setAccelerator(javafx.scene.input.KeyCombination.keyCombination("Ctrl+S"));
+
+        MenuItem saveAsItem = new MenuItem("Save As...");
+        saveAsItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleSaveAs(); });
+
+        MenuItem saveAllItem = new MenuItem("Save All");
+        saveAllItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleSaveAll(); });
 
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnAction(e -> javafx.application.Platform.exit());
@@ -37,12 +50,12 @@ public class MenuBarBuilder extends MenuBar {
             newProjectItem,
             new MenuItem("New File..."),
             new SeparatorMenuItem(),
-            new MenuItem("Open File..."),
+            openFileItem,
             new MenuItem("Open Folder..."),
             new SeparatorMenuItem(),
-            new MenuItem("Save"),
-            new MenuItem("Save As..."),
-            new MenuItem("Save All"),
+            saveItem,
+            saveAsItem,
+            saveAllItem,
             new SeparatorMenuItem(),
             new MenuItem("Close"),
             exitItem
@@ -82,6 +95,16 @@ public class MenuBarBuilder extends MenuBar {
         MenuItem generateCrudItem = new MenuItem("Generate CRUD");
         generateCrudItem.setOnAction(e -> CRUDWizard.showAndGenerate());
 
+        MenuItem buildItem = new MenuItem("Build");
+        buildItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleBuild("compile"); });
+        buildItem.setAccelerator(javafx.scene.input.KeyCombination.keyCombination("Ctrl+B"));
+
+        MenuItem cleanItem = new MenuItem("Clean");
+        cleanItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleBuild("clean"); });
+
+        MenuItem runTestsItem = new MenuItem("Run Tests");
+        runTestsItem.setOnAction(e -> { if (mainWindow != null) mainWindow.handleBuild("test"); });
+
         Menu projectMenu = new Menu("_Project");
         projectMenu.getItems().addAll(
             generateCrudItem,
@@ -89,9 +112,9 @@ public class MenuBarBuilder extends MenuBar {
             new MenuItem("Generate Service"),
             new MenuItem("Generate Controller"),
             new SeparatorMenuItem(),
-            new MenuItem("Build"),
-            new MenuItem("Clean"),
-            new MenuItem("Run Tests")
+            buildItem,
+            cleanItem,
+            runTestsItem
         );
 
         MenuItem openDbItem = new MenuItem("Database Explorer");

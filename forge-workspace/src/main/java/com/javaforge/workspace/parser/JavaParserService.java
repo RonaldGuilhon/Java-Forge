@@ -2,18 +2,17 @@ package com.javaforge.workspace.parser;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
-import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
-import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.javaforge.workspace.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,7 +66,7 @@ public class JavaParserService {
         List<String> todos = new ArrayList<>();
 
         String packageName = cu.getPackageDeclaration()
-                .map(NodeWithName::getNameAsString)
+                .map(p -> p.getNameAsString())
                 .orElse("");
 
         List<String> imports = cu.getImports().stream()
@@ -98,9 +97,11 @@ public class JavaParserService {
             cls.setType(coi.isInterface() ? "Interface" : "Class");
             coi.getExtendedTypes().stream().findFirst()
                     .ifPresent(t -> cls.setSuperClass(t.getNameAsString()));
-            cls.setInterfaces(coi.getImplementedInterfaces().stream()
-                    .map(t -> t.getNameAsString())
-                    .collect(Collectors.toList()));
+            List<String> interfaces = new ArrayList<>();
+            for (int i = 0; i < coi.getImplementedTypes().size(); i++) {
+                interfaces.add(coi.getImplementedTypes().get(i).getNameAsString());
+            }
+            cls.setInterfaces(interfaces);
         } else if (typeDecl.isEnumDeclaration()) {
             cls.setType("Enum");
         } else if (typeDecl.isAnnotationDeclaration()) {
@@ -123,16 +124,20 @@ public class JavaParserService {
             IndexedMethod m = new IndexedMethod();
             m.setName(method.getNameAsString());
             m.setReturnType(method.getType().asString());
-            m.setParameters(method.getParameters().stream()
-                    .map(Parameter::getNameAsString)
-                    .collect(Collectors.toList()));
-            m.setParameterTypes(method.getParameters().stream()
-                    .map(p -> p.getType().asString())
-                    .collect(Collectors.toList()));
-            m.setModifiers(method.getModifiers().stream()
-                    .map(Modifier::getKeyword)
-                    .map(Enum::name)
-                    .collect(Collectors.joining(" ")));
+            List<String> params = new ArrayList<>();
+            List<String> paramTypes = new ArrayList<>();
+            for (int i = 0; i < method.getParameters().size(); i++) {
+                params.add(method.getParameters().get(i).getNameAsString());
+                paramTypes.add(method.getParameters().get(i).getType().asString());
+            }
+            m.setParameters(params);
+            m.setParameterTypes(paramTypes);
+            StringBuilder modSb = new StringBuilder();
+            for (int i = 0; i < method.getModifiers().size(); i++) {
+                if (modSb.length() > 0) modSb.append(" ");
+                modSb.append(method.getModifiers().get(i).getKeyword().asString());
+            }
+            m.setModifiers(modSb.toString());
             m.setStartLine(method.getBegin().map(n -> n.line).orElse(0));
             m.setEndLine(method.getEnd().map(n -> n.line).orElse(0));
             m.setAnnotations(parseAnnotations(method.getAnnotations()));
@@ -148,10 +153,12 @@ public class JavaParserService {
                 IndexedField f = new IndexedField();
                 f.setName(var.getNameAsString());
                 f.setType(var.getType().asString());
-                f.setModifiers(field.getModifiers().stream()
-                        .map(Modifier::getKeyword)
-                        .map(Enum::name)
-                        .collect(Collectors.joining(" ")));
+                StringBuilder modSb = new StringBuilder();
+                for (int i = 0; i < field.getModifiers().size(); i++) {
+                    if (modSb.length() > 0) modSb.append(" ");
+                    modSb.append(field.getModifiers().get(i).getKeyword().asString());
+                }
+                f.setModifiers(modSb.toString());
                 f.setLine(field.getBegin().map(n -> n.line).orElse(0));
                 f.setAnnotations(parseAnnotations(field.getAnnotations()));
                 fields.add(f);
@@ -162,13 +169,15 @@ public class JavaParserService {
 
     private List<IndexedAnnotation> parseAnnotations(NodeList<AnnotationExpr> annotationList) {
         List<IndexedAnnotation> annotations = new ArrayList<>();
-        for (AnnotationExpr annotation : node.getAnnotations()) {
+        if (annotationList == null) return annotations;
+        for (AnnotationExpr annotation : annotationList) {
             IndexedAnnotation a = new IndexedAnnotation();
             a.setName(annotation.getNameAsString());
             Map<String, String> values = new HashMap<>();
-            annotation.findAll(MemberValuePair.class).forEach(pair ->
-                    values.put(pair.getNameAsString(), pair.getValue().toString())
-            );
+            List<MemberValuePair> pairs = annotation.findAll(MemberValuePair.class);
+            for (MemberValuePair pair : pairs) {
+                values.put(pair.getNameAsString(), pair.getValue().toString());
+            }
             a.setValues(values.isEmpty() ? null : values);
             annotations.add(a);
         }
