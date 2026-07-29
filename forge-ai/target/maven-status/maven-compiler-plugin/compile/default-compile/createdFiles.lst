@@ -1,0 +1,4 @@
+com\javaforge\ai\service\OpenAIService.class
+com\javaforge\ai\service\AIService.class
+com\javaforge\ai\service\OllamaService.class
+com\javaforge\ai\chat\AIChatPanel.class

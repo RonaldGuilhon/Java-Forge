@@ -14,35 +14,42 @@ public final class PluginManager {
 
     public void register(Plugin plugin) {
         plugins.add(plugin);
-        var ctx = new PluginContext(
-            "plugins/" + plugin.id(),
+        PluginContext ctx = new PluginContext(
+            "plugins/" + plugin.getId(),
             JavaForge.events(),
             JavaForge.settings()
         );
         plugin.init(ctx);
-        log.info("Registered plugin: {} v{}", plugin.name(), plugin.version());
+        log.info("Registered plugin: {} v{}", plugin.getName(), plugin.getVersion());
     }
 
     public void loadPlugins() {
-        var loader = ServiceLoader.load(Plugin.class);
+        ServiceLoader<Plugin> loader = ServiceLoader.load(Plugin.class);
         for (Plugin plugin : loader) {
             register(plugin);
         }
     }
 
     public void startPlugins() {
-        plugins.forEach(Plugin::start);
+        for (Plugin plugin : plugins) {
+            plugin.start();
+        }
     }
 
     public void stopPlugins() {
-        plugins.forEach(Plugin::stop);
+        for (Plugin plugin : plugins) {
+            plugin.stop();
+        }
     }
 
     public List<Plugin> getPlugins() {
-        return List.copyOf(plugins);
+        return Collections.unmodifiableList(plugins);
     }
 
     public Optional<Plugin> findById(String id) {
-        return plugins.stream().filter(p -> p.id().equals(id)).findFirst();
+        for (Plugin p : plugins) {
+            if (p.getId().equals(id)) return Optional.of(p);
+        }
+        return Optional.empty();
     }
 }

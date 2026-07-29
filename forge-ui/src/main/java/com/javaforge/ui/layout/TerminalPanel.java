@@ -6,24 +6,38 @@ import javafx.scene.web.WebView;
 public class TerminalPanel extends BorderPane {
 
     private final WebView terminalView = new WebView();
+    private boolean darkMode = true;
 
     public TerminalPanel() {
         getStyleClass().add("terminal-panel");
-        terminalView.getEngine().loadContent("""
-            <html><body style="background:#1e1e1e;color:#d4d4d4;font-family:Consolas,monospace;padding:8px;">
-            <div id="output">
-              <span style="color:#569cd6;">Java Forge Terminal</span><br>
-              <span style="color:#6a9955;">Ready</span><br>
-            </div>
-            <script>
-              var output = document.getElementById('output');
-              function writeLine(text, color) {
-                output.innerHTML += '<span style=\"color:' + (color || '#d4d4d4') + ';\">' + text + '</span><br>';
-              }
-            </script>
-            </body></html>
-            """);
+        loadContent();
         setCenter(terminalView);
+    }
+
+    private void loadContent() {
+        String bg = darkMode ? "#1e1e1e" : "#ffffff";
+        String fg = darkMode ? "#d4d4d4" : "#333333";
+        String accent = darkMode ? "#569cd6" : "#0066b8";
+        String success = darkMode ? "#6a9955" : "#388e3c";
+        terminalView.getEngine().loadContent(
+            "<html><body style=\"background:" + bg + ";color:" + fg + ";font-family:Consolas,monospace;padding:8px;\">\n" +
+            "<div id=\"output\">\n" +
+            "  <span style=\"color:" + accent + ";\">Java Forge Terminal</span><br>\n" +
+            "  <span style=\"color:" + success + ";\">Ready</span><br>\n" +
+            "</div>\n" +
+            "<script>\n" +
+            "  var output = document.getElementById('output');\n" +
+            "  function writeLine(text, color) {\n" +
+            "    output.innerHTML += '<span style=\"color:' + (color || '" + fg + "') + ';\">' + text + '</span><br>';\n" +
+            "  }\n" +
+            "</script>\n" +
+            "</body></html>"
+        );
+    }
+
+    public void setDarkMode(boolean dark) {
+        this.darkMode = dark;
+        loadContent();
     }
 
     public void write(String text) {

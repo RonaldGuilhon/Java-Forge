@@ -1,0 +1,4 @@
+com\javaforge\crud\model\CRUDConfig$FieldInfo.class
+com\javaforge\crud\model\CRUDConfig.class
+com\javaforge\crud\generator\CRUDGeneratorService.class
+com\javaforge\crud\wizard\CRUDWizard.class

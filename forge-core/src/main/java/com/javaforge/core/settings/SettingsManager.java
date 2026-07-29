@@ -6,14 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class SettingsManager {
 
     private static final Logger log = LoggerFactory.getLogger(SettingsManager.class);
-    private static final Path CONFIG_DIR = Path.of(System.getProperty("user.home"), ".javaforge");
+    private static final Path CONFIG_DIR = Paths.get(System.getProperty("user.home"), ".javaforge");
     private static final Path SETTINGS_FILE = CONFIG_DIR.resolve("settings.json");
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -31,8 +33,8 @@ public final class SettingsManager {
     @SuppressWarnings("unchecked")
     private void load() {
         if (Files.exists(SETTINGS_FILE)) {
-            try (var reader = Files.newBufferedReader(SETTINGS_FILE)) {
-                var data = gson.fromJson(reader, Map.class);
+            try (BufferedReader reader = Files.newBufferedReader(SETTINGS_FILE, StandardCharsets.UTF_8)) {
+                Map<String, Object> data = gson.fromJson(reader, Map.class);
                 if (data != null) {
                     cache.putAll(data);
                 }
@@ -44,7 +46,8 @@ public final class SettingsManager {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String key, T defaultValue) {
-        return (T) cache.getOrDefault(key, defaultValue);
+        T val = (T) cache.get(key);
+        return val != null ? val : defaultValue;
     }
 
     public void set(String key, Object value) {
@@ -52,7 +55,7 @@ public final class SettingsManager {
     }
 
     public void flush() {
-        try (var writer = Files.newBufferedWriter(SETTINGS_FILE)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(SETTINGS_FILE, StandardCharsets.UTF_8)) {
             gson.toJson(cache, writer);
         } catch (IOException e) {
             log.error("Could not save settings", e);
@@ -60,6 +63,6 @@ public final class SettingsManager {
     }
 
     public Map<String, Object> all() {
-        return Map.copyOf(cache);
+        return Collections.unmodifiableMap(cache);
     }
 }

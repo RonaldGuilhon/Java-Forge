@@ -16,8 +16,8 @@ public class StatusBar extends BorderPane {
     public StatusBar() {
         getStyleClass().add("status-bar");
 
-        var left = new HBox(8, leftStatus, createSeparator(), gitBranch);
-        var right = new HBox(8, language, createSeparator(), encoding, createSeparator(), cursorPosition);
+        HBox left = new HBox(8, leftStatus, createSeparator(), gitBranch);
+        HBox right = new HBox(8, language, createSeparator(), encoding, createSeparator(), cursorPosition);
 
         left.setPadding(new Insets(2, 8, 2, 8));
         right.setPadding(new Insets(2, 8, 2, 8));
@@ -27,7 +27,7 @@ public class StatusBar extends BorderPane {
     }
 
     private Label createSeparator() {
-        var sep = new Label("|");
+        Label sep = new Label("|");
         sep.getStyleClass().add("status-separator");
         return sep;
     }

@@ -3,7 +3,9 @@ package com.javaforge.core.lifecycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class LifecycleManager {
@@ -20,24 +22,23 @@ public final class LifecycleManager {
 
     public void initialize() {
         state = State.INITIALIZING;
-        hooks.forEach((name, hook) -> {
+        for (Map.Entry<String, LifecycleHook> entry : hooks.entrySet()) {
             try {
-                hook.onInitialize();
-                log.debug("Initialized lifecycle hook: {}", name);
+                entry.getValue().onInitialize();
+                log.debug("Initialized lifecycle hook: {}", entry.getKey());
             } catch (Exception e) {
-                log.error("Failed to initialize hook: {}", name, e);
+                log.error("Failed to initialize hook: {}", entry.getKey(), e);
             }
-        });
+        }
         state = State.RUNNING;
         log.info("Java Forge initialized successfully");
     }
 
     public void shutdown() {
         state = State.SHUTTING_DOWN;
-        var reversed = new LinkedHashMap<>(hooks);
-        var keys = reversed.keySet().stream().toList();
+        List<String> keys = new ArrayList<>(hooks.keySet());
         for (int i = keys.size() - 1; i >= 0; i--) {
-            var name = keys.get(i);
+            String name = keys.get(i);
             try {
                 hooks.get(name).onShutdown();
             } catch (Exception e) {

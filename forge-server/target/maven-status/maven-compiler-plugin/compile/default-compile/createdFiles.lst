@@ -1,0 +1,4 @@
+com\javaforge\server\model\ServerConfig.class
+com\javaforge\server\model\ServerConfig$ServerType.class
+com\javaforge\server\ui\ServerPanel.class
+com\javaforge\server\manager\ServerManager.class

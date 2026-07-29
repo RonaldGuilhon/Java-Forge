@@ -1,11 +1,9 @@
 package com.javaforge.core.plugin;
 
-import com.javaforge.core.event.EventBus;
-
 public interface Plugin {
-    String id();
-    String name();
-    String version();
+    String getId();
+    String getName();
+    String getVersion();
     void init(PluginContext context);
     void start();
     void stop();

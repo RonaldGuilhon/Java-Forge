@@ -11,7 +11,7 @@ public class ConsolePanel extends BorderPane {
         getStyleClass().add("console-panel");
         console.setEditable(false);
         console.setWrapText(true);
-        console.setStyle("-fx-control-inner-background: #1e1e1e; -fx-text-fill: #d4d4d4; -fx-font-family: Consolas;");
+        console.setStyle("-fx-font-family: Consolas;");
         console.setText("Java Forge Console\n");
         setCenter(console);
     }

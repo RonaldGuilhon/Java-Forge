@@ -1,9 +1,10 @@
 package com.javaforge.ui.theme;
 
 import com.javaforge.core.settings.SettingsManager;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -18,17 +19,17 @@ public final class ThemeManager {
 
     public ThemeManager(SettingsManager settings) {
         this.settings = settings;
-        registerTheme(new Theme("Dark", true, List.of(
+        registerTheme(new Theme("Dark", true, Arrays.asList(
             getClass().getResource("/css/dark.css").toExternalForm()
         )));
-        registerTheme(new Theme("Light", false, List.of(
+        registerTheme(new Theme("Light", false, Arrays.asList(
             getClass().getResource("/css/light.css").toExternalForm()
         )));
-        var saved = settings.get(SETTING_KEY, "Dark");
+        String saved = settings.get(SETTING_KEY, "Dark");
         current = themes.stream()
-            .filter(t -> t.name().equals(saved))
+            .filter(t -> t.getName().equals(saved))
             .findFirst()
-            .orElse(themes.getFirst());
+            .orElse(themes.get(0));
     }
 
     public void registerTheme(Theme theme) {
@@ -37,20 +38,21 @@ public final class ThemeManager {
 
     public void setTheme(String name) {
         themes.stream()
-            .filter(t -> t.name().equals(name))
+            .filter(t -> t.getName().equals(name))
             .findFirst()
             .ifPresent(theme -> {
                 current = theme;
                 settings.set(SETTING_KEY, name);
-                notifyListeners(theme.stylesheets());
+                notifyListeners(theme.getStylesheets());
             });
     }
 
     public void toggle() {
-        var next = current.dark()
-            ? themes.stream().filter(t -> !t.dark()).findFirst().orElse(current)
-            : themes.stream().filter(Theme::dark).findFirst().orElse(current);
-        setTheme(next.name());
+        boolean isDark = current.isDark();
+        Theme next = isDark
+            ? themes.stream().filter(t -> !t.isDark()).findFirst().orElse(current)
+            : themes.stream().filter(Theme::isDark).findFirst().orElse(current);
+        setTheme(next.getName());
     }
 
     public Theme getCurrentTheme() {
@@ -58,7 +60,7 @@ public final class ThemeManager {
     }
 
     public List<Theme> getThemes() {
-        return List.copyOf(themes);
+        return Collections.unmodifiableList(themes);
     }
 
     public void addListener(Consumer<List<String>> listener) {
@@ -66,6 +68,8 @@ public final class ThemeManager {
     }
 
     private void notifyListeners(List<String> stylesheets) {
-        listeners.forEach(l -> l.accept(stylesheets));
+        for (Consumer<List<String>> l : listeners) {
+            l.accept(stylesheets);
+        }
     }
 }

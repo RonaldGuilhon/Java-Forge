@@ -18,8 +18,8 @@ public class EditorPanel extends BorderPane {
 
     public Tab openNewEditor() {
         untitledCount++;
-        var tab = new Tab("Untitled-" + untitledCount);
-        var editor = new MonacoEditorView();
+        Tab tab = new Tab("Untitled-" + untitledCount);
+        MonacoEditorView editor = new MonacoEditorView();
         tab.setContent(editor);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
@@ -27,8 +27,8 @@ public class EditorPanel extends BorderPane {
     }
 
     public Tab openFile(String fileName, String content) {
-        var tab = new Tab(fileName);
-        var editor = new MonacoEditorView();
+        Tab tab = new Tab(fileName);
+        MonacoEditorView editor = new MonacoEditorView();
         editor.setContent(content);
         tab.setContent(editor);
         tabPane.getTabs().add(tab);

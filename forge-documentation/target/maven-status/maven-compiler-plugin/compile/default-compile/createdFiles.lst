@@ -1,0 +1,3 @@
+com\javaforge\documentation\generator\DocumentationGenerator.class
+com\javaforge\documentation\ui\DocumentationWizard.class
+com\javaforge\documentation\model\DocConfig.class

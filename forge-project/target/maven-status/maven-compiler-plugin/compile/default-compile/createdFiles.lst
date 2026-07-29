@@ -1,0 +1,6 @@
+com\javaforge\project\wizard\ProjectWizard.class
+com\javaforge\project\model\JavaVersion.class
+com\javaforge\project\model\ProjectConfig.class
+com\javaforge\project\service\ProjectGeneratorService.class
+com\javaforge\project\model\BuildTool.class
+com\javaforge\project\model\ProjectType.class

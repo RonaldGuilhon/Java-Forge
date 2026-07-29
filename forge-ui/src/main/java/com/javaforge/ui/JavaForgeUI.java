@@ -1,6 +1,7 @@
 package com.javaforge.ui;
 
 import com.javaforge.core.JavaForge;
+import com.javaforge.core.settings.SettingsManager;
 import com.javaforge.ui.layout.MainWindow;
 import com.javaforge.ui.theme.ThemeManager;
 import javafx.application.Application;
@@ -17,14 +18,14 @@ public class JavaForgeUI extends Application {
     public void start(Stage stage) {
         JavaForge.bootstrap();
 
-        var forgeSettings = JavaForge.settings();
-        var themeManager = new ThemeManager(forgeSettings);
+        SettingsManager forgeSettings = JavaForge.settings();
+        ThemeManager themeManager = new ThemeManager(forgeSettings);
 
-        var mainWindow = new MainWindow(themeManager);
-        var scene = new Scene(mainWindow, WIDTH, HEIGHT);
+        MainWindow mainWindow = new MainWindow(themeManager);
+        Scene scene = new Scene(mainWindow, WIDTH, HEIGHT);
 
         themeManager.getCurrentTheme().apply(scene);
-        themeManager.addListener(scene::getStylesheets::setAll);
+        themeManager.addListener(sheets -> scene.getStylesheets().setAll(sheets));
 
         stage.setTitle(APP_NAME);
         stage.setScene(scene);

@@ -1,0 +1,11 @@
+com\javaforge\core\event\EventBus.class
+com\javaforge\core\lifecycle\LifecycleHook.class
+com\javaforge\core\settings\SettingsManager.class
+com\javaforge\core\JavaForge$AppStartedEvent.class
+com\javaforge\core\JavaForge$AppShuttingDownEvent.class
+com\javaforge\core\plugin\PluginContext.class
+com\javaforge\core\lifecycle\LifecycleManager$State.class
+com\javaforge\core\plugin\PluginManager.class
+com\javaforge\core\lifecycle\LifecycleManager.class
+com\javaforge\core\plugin\Plugin.class
+com\javaforge\core\JavaForge.class
